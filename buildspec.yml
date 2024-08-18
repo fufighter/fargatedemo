@@ -12,6 +12,8 @@ phases:
       - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $REPOSITORY_URI
       - echo $CODEBUILD_SOURCE_VERSION
       - echo $CODEBUILD_RESOLVED_SOURCE_VERSION
+      - echo $CODEBUILD_SRC_DIR
+      - ls -ltr $CODEBUILD_SRC_DIR
   build:
     commands:
       - REPOSITORY_URI=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
