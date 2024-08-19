@@ -52,6 +52,16 @@ module "sg_ecs" {
   name        = "${var.project}-ecs"
   vpc_id      = var.vpc_id
 
+  egress_with_cidr_blocks = [
+    {
+      from_port   = 0
+      to_port     = 0
+      protocol    = -1
+      description = "Service name"
+      cidr_blocks = "0.0.0.0/0"
+    },
+  ]
+  
   ingress_with_cidr_blocks = [
     {
       from_port   = var.app_port
@@ -68,6 +78,16 @@ module "sg_alb" {
 
   name        = "${var.project}-alb"
   vpc_id      = var.vpc_id
+
+  egress_with_cidr_blocks = [
+    {
+      from_port   = 0
+      to_port     = 0
+      protocol    = -1
+      description = "Service name"
+      cidr_blocks = "0.0.0.0/0"
+    },
+  ]
 
   ingress_with_cidr_blocks = [
     {
