@@ -5,7 +5,7 @@ provider "aws" {
 }
 
 module "dev" {
-  source   = "../modules/ecs"
+  source   = "../../modules/ecs"
 
   region         = var.region
   env_name       = var.env_name
