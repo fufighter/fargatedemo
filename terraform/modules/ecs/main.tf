@@ -47,31 +47,37 @@ resource "aws_ecs_service" "service" {
 }
 
 module "sg_ecs" {
-  source      = "code.logicworks.net/terraform-modules/terraform-aws-securitygroup/aws"
-  version     = "1.3.2"
+  source = "terraform-aws-modules/security-group/aws"
+
+  name        = "${var.project}-ecs"
   vpc_id      = var.vpc_id
-  name        = "${var.project}-ecs-${var.env_name}"
-  description = "ECS Service SG"
-  ingress_rules = {
-    web = {
+
+  ingress_with_cidr_blocks = [
+    {
       from_port   = var.app_port
-      cidr_blocks = ["10.0.0.0/8"]
-    }
-  }
+      to_port     = var.app_port
+      protocol    = "tcp"
+      description = "app port"
+      cidr_blocks = "10.0.0.0/8"
+    },
+  ]
 }
 
 module "sg_alb" {
-  source      = "code.logicworks.net/terraform-modules/terraform-aws-securitygroup/aws"
-  version     = "1.3.2"
+  source = "terraform-aws-modules/security-group/aws"
+
+  name        = "${var.project}-alb"
   vpc_id      = var.vpc_id
-  name        = "${var.project}-alb-${var.env_name}"
-  description = "ALB SG"
-  ingress_rules = {
-    web = {
+
+  ingress_with_cidr_blocks = [
+    {
       from_port   = 80
-      cidr_blocks = ["0.0.0.0/0"]
-    }
-  }
+      to_port     = 80
+      protocol    = "tcp"
+      description = "app port"
+      cidr_blocks = "0.0.0.0/0"
+    },
+  ]
 }
 
 resource "aws_lb" "alb" {
