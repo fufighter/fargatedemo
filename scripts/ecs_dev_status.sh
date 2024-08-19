@@ -9,5 +9,5 @@ while [ "${STATUS}" != "COMPLETED" ]
 do
   echo "sleep 15... "
   sleep 15
-  STATUS=$(aws ecs describe-services --cluster $ECS_CLUSTER --services $IMAGE_REPO_NAME --no-cli-pager | jq '.services[].deployments[].rolloutState')
+  STATUS=$(aws ecs describe-services --cluster $ECS_CLUSTER --services $IMAGE_REPO_NAME --no-cli-pager | jq -r '.services[].deployments[].rolloutState')
 done
