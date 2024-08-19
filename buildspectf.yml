@@ -14,13 +14,14 @@ phases:
       - "curl -s -qL -o terraform.zip https://releases.hashicorp.com/terraform/${TF_VERSION}/terraform_${TF_VERSION}_linux_amd64.zip"
       - "unzip -o terraform.zip -d /bin/"
       - "terraform -v"
-      - echo "{}" | jq
   build:
     commands:
       - "cd ${CODEBUILD_SRC_DIR}/${CODE_SRC_DIR}"
       - "echo ## TERRAFORM PLAN : Generate the Terraform Plan"
       - "terraform init"
       - "terraform plan -out tfapply"
+      - "terraform apply tfapply"
+      - "bash ${CODEBUILD_SRC_DIR}/scripts/ecs_dev_status.sh"
 artifacts:
   files:
     - '**/*'
