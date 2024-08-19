@@ -29,9 +29,13 @@ phases:
       - docker push $REPOSITORY_URI/$IMAGE_REPO_NAME:$CODEBUILD_BUILD_NUMBER
       - docker push $REPOSITORY_URI/$IMAGE_REPO_NAME:latest
       - printf "[{\"name\":\"$IMAGE_REPO_NAME\",\"imageUri\":\"%s\"}]" $REPOSITORY_URI/$IMAGE_REPO_NAME:$CODEBUILD_BUILD_NUMBER > imagedefinitions.json
+      - printf "\"image\" = \"%s\"" $REPOSITORY_URI/$IMAGE_REPO_NAME:$CODEBUILD_BUILD_NUMBER > z.auto.tfvars
+      - cp z.auto.tfvars $CODEBUILD_SRC_DIR/terraform/live/ecs/
+      - cp z.auto.tfvars $CODEBUILD_SRC_DIR/terraform/live/prodecs/
       - cat imagedefinitions.json
 
 artifacts:
   files:
     - 'imagedefinitions.json'
+    - './terraform/*'
   name: $IMAGE_REPO_NAME
