@@ -2,15 +2,15 @@
 #IMAGE_REPO_NAME="dog"
 #ENVIRONMENT="dev"
 
-ECS_CLUSTER="${IMAGE_REPO_NAME}"-"${ENVIRONMENT}"
-STATUS=$(aws ecs describe-services --cluster "${ECS_CLUSTER}" --services "${IMAGE_REPO_NAME}" --no-cli-pager | jq -r '.services[].deployments[].rolloutState')
+ECS_CLUSTER=$IMAGE_REPO_NAME-$ENVIRONMENT
+STATUS=$(aws ecs describe-services --cluster $ECS_CLUSTER --services $IMAGE_REPO_NAME | jq -r '.services[].deployments[].rolloutState')
 
 echo $ECS_CLUSTER
 echo $STATUS
 
-while [ "${STATUS}" != "COMPLETED" ]
+while [ "$STATUS" != "COMPLETED" ]
 do
-  echo "${STATUS}" "sleep 30... "
   sleep 30
-  STATUS=$(aws ecs describe-services --cluster "${ECS_CLUSTER}" --services "${IMAGE_REPO_NAME}" --no-cli-pager | jq -r '.services[].deployments[].rolloutState')
+  STATUS=$(aws ecs describe-services --cluster $ECS_CLUSTER --services $IMAGE_REPO_NAME | jq -r '.services[].deployments[].rolloutState')
+  echo "$STATUS wait 30... "
 done
