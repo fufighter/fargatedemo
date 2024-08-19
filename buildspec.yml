@@ -35,7 +35,5 @@ phases:
 
 artifacts:
   files:
-    - 'imagedefinitions.json'
-    - 'z.auto.tfvars'
-    - './terraform/**/*'
+    - '**/*'
   name: $IMAGE_REPO_NAME
