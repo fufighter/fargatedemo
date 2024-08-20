@@ -11,8 +11,8 @@ phases:
     commands:
       - CODE_SRC_DIR="./terraform/live/10_${ENVIRONMENT}ecs"
       - echo $CODE_SRC_DIR
+      - checkov -d ${CODEBUILD_SRC_DIR}/${CODE_SRC_DIR} -o json | jq -r '.results.failed_checks[].check_name'      
       - checkov -d ${CODEBUILD_SRC_DIR}/${CODE_SRC_DIR} -o junitxml > checkov.xml
-      - checkov -d ${CODEBUILD_SRC_DIR}/${CODE_SRC_DIR} -o json | jq -r '.results.failed_checks[].check_name'
 reports:
   checkov:
     files:
