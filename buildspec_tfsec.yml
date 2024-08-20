@@ -16,7 +16,7 @@ phases:
       - CODE_SRC_DIR="./terraform/live/"
       - echo $CODE_SRC_DIR
       - checkov -d ${CODEBUILD_SRC_DIR}/${CODE_SRC_DIR} -o junitxml --soft-fail > checkov.xml
-      - tfsec ${CODEBUILD_SRC_DIR}/${CODE_SRC_DIR} -f junit --soft-fail > tfsec.xml
+      - tfsec ${CODEBUILD_SRC_DIR}/${CODE_SRC_DIR} -f junit --include-passed --soft-fail > tfsec.xml
 artifacts:
   files:
     - '**/*'
