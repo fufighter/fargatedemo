@@ -2,7 +2,7 @@ version: 0.2
 
 env:
   variables:
-    CODE_SRC_DIR: "./terraform/live/10_${CUSTOM_VAR1}ecs"
+    CODE_SRC_DIR: "./terraform/live/10_${ENVIRONMENT}ecs"
     TF_VERSION: "1.5.5"
 
 phases:
@@ -18,7 +18,7 @@ phases:
       - "cd ${CODEBUILD_SRC_DIR}/${CODE_SRC_DIR}"
       - "echo ###### TERRAFORM APPLY ######"
       - "terraform apply tfapply"
-      - "bash ${CODEBUILD_SRC_DIR}/scripts/ecs_${CUSTOM_VAR1}_status.sh"
+      - "bash ${CODEBUILD_SRC_DIR}/scripts/ecs_${ENVIRONMENT}_status.sh"
 artifacts:
   files:
     - '**/*'

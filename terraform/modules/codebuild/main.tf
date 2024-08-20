@@ -37,8 +37,8 @@ resource "aws_codebuild_project" "project" {
     }
 
     environment_variable {
-      name  = "CUSTOM_VAR1"
-      value = "#{variables.PIPELINE_ENV}"
+      name  = "ENVIRONMENT"
+      value = "${var.env_name}"
     }
   }
 

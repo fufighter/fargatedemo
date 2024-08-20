@@ -59,7 +59,7 @@ resource "aws_codepipeline" "codepipeline" {
 
     action {
       name             = "Build"
-      namespace        = "TFDev"
+      namespace        = "TFDevPlan"
       category         = "Build"
       owner            = "AWS"
       provider         = "CodeBuild"
@@ -69,12 +69,6 @@ resource "aws_codepipeline" "codepipeline" {
 
       configuration = {
         ProjectName = "${var.project}_tfplan-project"
-        EnvironmentVariables = jsonencode([{
-            name  = "PIPELINE_ENV"
-            type  = "PLAINTEXT"
-            value = "dev"
-          }
-        ])
       }
     }
 
@@ -95,7 +89,7 @@ resource "aws_codepipeline" "codepipeline" {
 
     action {
       name             = "Build"
-      namespace        = "TFApply"
+      namespace        = "TFDevApply"
       category         = "Build"
       owner            = "AWS"
       provider         = "CodeBuild"
@@ -104,12 +98,6 @@ resource "aws_codepipeline" "codepipeline" {
 
       configuration = {
         ProjectName = "${var.project}_tfapply-project"
-        EnvironmentVariables = jsonencode([{
-            name  = "PIPELINE_ENV"
-            type  = "PLAINTEXT"
-            value = "dev"
-          }
-        ])
       }
     }
 
