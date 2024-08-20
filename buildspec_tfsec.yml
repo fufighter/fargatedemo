@@ -13,6 +13,10 @@ phases:
       - echo $CODE_SRC_DIR
       - checkov -d ${CODEBUILD_SRC_DIR}/${CODE_SRC_DIR} -o json | jq -r '.results.failed_checks[].check_name'      
       - checkov -d ${CODEBUILD_SRC_DIR}/${CODE_SRC_DIR} -o junitxml --soft-fail > checkov.xml
+artifacts:
+  files:
+    - '**/*'
+  name: $IMAGE_REPO_NAME
 reports:
   checkov:
     files:
