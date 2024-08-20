@@ -1,8 +1,8 @@
 #!/bin/bash
-#IMAGE_REPO_NAME="dog"
-#ENVIRONMENT="dev"
+IMAGE_REPO_NAME="dog"
+ENVIRONMENT="dev"
 ECS_CLUSTER=$IMAGE_REPO_NAME-$ENVIRONMENT
-TASKDEF=$(terraform -chdir="./terraform/live/10_${ENVIRONMENT}ecs" output -json)
+TASKDEF=$(terraform -chdir="${CODEBUILD_SRC_DIR}/${CODE_SRC_DIR}" output -json)
 
 echo $ACCOUNTID $TASKNUM $TASKDEF
 
