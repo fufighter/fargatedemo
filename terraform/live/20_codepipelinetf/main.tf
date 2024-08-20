@@ -58,16 +58,46 @@ resource "aws_codepipeline" "codepipeline" {
     name = "TFDevPlan"
 
     action {
-      name            = "Build"
-      namespace       = "TFDev"
-      category        = "Build"
-      owner           = "AWS"
-      provider        = "CodeBuild"
-      input_artifacts = ["BuildArtifact"]
-      version         = "1"
+      name             = "Build"
+      namespace        = "TFDev"
+      category         = "Build"
+      owner            = "AWS"
+      provider         = "CodeBuild"
+      input_artifacts  = ["BuildArtifact"]
+      output_artifacts = ["TFDevPlanArtifact"]
+      version          = "1"
 
       configuration = {
-        ProjectName = "${var.project}tf-project"
+        ProjectName = "${var.project}-tfplan"
+      }
+    }
+
+    action {
+      category           = "Approval"
+      name               = "approval"
+      owner              = "AWS"
+      provider           = "Manual"
+      region             = data.aws_region.current.name
+      run_order          = 1
+      version            = "1"
+    }
+
+  }
+
+  stage {
+    name = "TFDevApply"
+
+    action {
+      name             = "Build"
+      namespace        = "TFApply"
+      category         = "Build"
+      owner            = "AWS"
+      provider         = "CodeBuild"
+      input_artifacts  = ["TFDevPlanArtifact"]
+      version          = "1"
+
+      configuration = {
+        ProjectName = "${var.project}-tfapply"
       }
     }
 
