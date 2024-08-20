@@ -68,7 +68,7 @@ resource "aws_codepipeline" "codepipeline" {
       version          = "1"
 
       configuration = {
-        ProjectName = "${var.project}-tfplan"
+        ProjectName = "${var.project}_tfplan-project"
       }
     }
 
@@ -97,7 +97,7 @@ resource "aws_codepipeline" "codepipeline" {
       version          = "1"
 
       configuration = {
-        ProjectName = "${var.project}-tfapply"
+        ProjectName = "${var.project}_tfapply-project"
       }
     }
 

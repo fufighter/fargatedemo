@@ -15,9 +15,8 @@ phases:
       - "terraform -v"
   build:
     commands:
-      - "cp z.auto.tfvars.json ${CODEBUILD_SRC_DIR}/${CODE_SRC_DIR}/"
       - "cd ${CODEBUILD_SRC_DIR}/${CODE_SRC_DIR}"
-      - "echo ## TERRAFORM PLAN : Generate the Terraform Plan"
+      - "echo ###### TERRAFORM APPLY ######"
       - "terraform apply tfapply"
       - "bash ${CODEBUILD_SRC_DIR}/scripts/ecs_${ENVIRONMENT}_status.sh"
 artifacts:
