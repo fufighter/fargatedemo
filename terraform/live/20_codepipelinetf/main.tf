@@ -93,7 +93,7 @@ resource "aws_codepipeline" "codepipeline" {
       category         = "Build"
       owner            = "AWS"
       provider         = "CodeBuild"
-      input_artifacts  = ["BuildArtifact"]
+      input_artifacts  = ["TFDevSecArtifact"]
       output_artifacts = ["TFDevPlanArtifact"]
       version          = "1"
 
@@ -124,6 +124,7 @@ resource "aws_codepipeline" "codepipeline" {
       owner            = "AWS"
       provider         = "CodeBuild"
       input_artifacts  = ["TFDevPlanArtifact"]
+      output_artifacts = ["TFDevApplyArtifact"]
       version          = "1"
 
       configuration = {
