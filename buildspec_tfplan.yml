@@ -2,7 +2,6 @@ version: 0.2
 
 env:
   variables:
-    CODE_SRC_DIR: "./terraform/live/10_${ENVIRONMENT}ecs"
     TF_VERSION: "1.5.5"
 
 phases:
@@ -15,11 +14,8 @@ phases:
       - "terraform -v"
   build:
     commands:
-      - "echo $ENVIRONMENT"
-      - "echo $CODEBUILD_SRC_DIR"
+      - "CODE_SRC_DIR=\"./terraform/live/10_${ENVIRONMENT}ecs\""
       - "echo $CODE_SRC_DIR"
-      - "ls -ltr"
-      - "ls -ltr ${CODEBUILD_SRC_DIR}/${CODE_SRC_DIR}/"
       - "cp z.auto.tfvars.json ${CODEBUILD_SRC_DIR}/${CODE_SRC_DIR}/"
       - "cd ${CODEBUILD_SRC_DIR}/${CODE_SRC_DIR}"
       - "echo ## TERRAFORM PLAN : Generate the Terraform Plan"
