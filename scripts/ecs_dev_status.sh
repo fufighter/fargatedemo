@@ -2,7 +2,7 @@
 IMAGE_REPO_NAME="dog"
 ENVIRONMENT="dev"
 ECS_CLUSTER=$IMAGE_REPO_NAME-$ENVIRONMENT
-TASKDEF=$(terraform -chdir="${CODEBUILD_SRC_DIR}/${CODE_SRC_DIR}" output -json)
+TASKDEF=$(terraform -chdir="${CODEBUILD_SRC_DIR}/${CODE_SRC_DIR}" output -json | jq -r '.ecs.value')
 
 echo $ACCOUNTID $TASKNUM $TASKDEF
 
