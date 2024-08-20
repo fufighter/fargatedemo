@@ -5,6 +5,8 @@ phases:
     runtime-versions:
       python: 3.9
     commands:
+      - /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+      - brew install tfsec
       - "pip3 install checkov"
       - "checkov"
   build:
