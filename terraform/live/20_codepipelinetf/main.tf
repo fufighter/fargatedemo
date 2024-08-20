@@ -55,6 +55,36 @@ resource "aws_codepipeline" "codepipeline" {
   }
 
   stage {
+    name = "TFDevSec"
+
+    action {
+      name             = "Build"
+      namespace        = "TFDevSec"
+      category         = "Build"
+      owner            = "AWS"
+      provider         = "CodeBuild"
+      input_artifacts  = ["BuildArtifact"]
+      output_artifacts = ["TFDevSecArtifact"]
+      version          = "1"
+
+      configuration = {
+        ProjectName = "${var.project}_tfsec-project"
+      }
+    }
+
+    action {
+      category           = "Approval"
+      name               = "approval"
+      owner              = "AWS"
+      provider           = "Manual"
+      region             = data.aws_region.current.name
+      run_order          = 1
+      version            = "1"
+    }
+
+  }
+
+  stage {
     name = "TFDevPlan"
 
     action {
