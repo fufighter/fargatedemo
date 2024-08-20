@@ -47,3 +47,31 @@ module "tfapply" {
   iam_codebuild_arn      = local.iam_codebuild.arn
   codepipeline_accountid = data.aws_caller_identity.current.account_id
 }
+
+module "prod_tfplan" {
+  source   = "../../modules/codebuild"
+
+  region                 = var.region
+  env_name               = "prod"
+  project                = "${var.project}_${var.env_name}_tfplan"
+  buildspec              = "buildspec_tfplan.yml"
+  branch                 = "main"
+  repo_name              = var.project  
+  s3_name                = local.s3.bucket
+  iam_codebuild_arn      = local.iam_codebuild.arn
+  codepipeline_accountid = data.aws_caller_identity.current.account_id
+}
+
+module "prod_tfapply" {
+  source   = "../../modules/codebuild"
+
+  region                 = var.region
+  env_name               = "prod"
+  project                = "${var.project}_${var.env_name}_tfapply"
+  buildspec              = "buildspec_tfapply.yml"
+  branch                 = "main"
+  repo_name              = var.project  
+  s3_name                = local.s3.bucket
+  iam_codebuild_arn      = local.iam_codebuild.arn
+  codepipeline_accountid = data.aws_caller_identity.current.account_id
+}

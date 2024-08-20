@@ -78,7 +78,7 @@ resource "aws_codepipeline" "codepipeline" {
       owner              = "AWS"
       provider           = "Manual"
       region             = data.aws_region.current.name
-      run_order          = 1
+      run_order          = 2
       version            = "1"
     }
 
@@ -108,7 +108,7 @@ resource "aws_codepipeline" "codepipeline" {
       owner              = "AWS"
       provider           = "Manual"
       region             = data.aws_region.current.name
-      run_order          = 1
+      run_order          = 2
       version            = "1"
     }
 
@@ -138,7 +138,67 @@ resource "aws_codepipeline" "codepipeline" {
       owner              = "AWS"
       provider           = "Manual"
       region             = data.aws_region.current.name
-      run_order          = 1
+      run_order          = 2
+      version            = "1"
+    }
+
+  }
+
+  stage {
+    name = "TFProdPlan"
+
+    action {
+      name             = "Build"
+      namespace        = "TFProdPlan"
+      category         = "Build"
+      owner            = "AWS"
+      provider         = "CodeBuild"
+      input_artifacts  = ["TFDevApplyArtifact"]
+      output_artifacts = ["TFProdPlanArtifact"]
+      version          = "1"
+
+      configuration = {
+        ProjectName = "${var.project}_prod_tfplan-project"
+      }
+    }
+
+    action {
+      category           = "Approval"
+      name               = "approval"
+      owner              = "AWS"
+      provider           = "Manual"
+      region             = data.aws_region.current.name
+      run_order          = 2
+      version            = "1"
+    }
+
+  }
+
+  stage {
+    name = "TFProdApply"
+
+    action {
+      name             = "Build"
+      namespace        = "TFProdApply"
+      category         = "Build"
+      owner            = "AWS"
+      provider         = "CodeBuild"
+      input_artifacts  = ["TFProdPlanArtifact"]
+      output_artifacts = ["TFProdApplyArtifact"]
+      version          = "1"
+
+      configuration = {
+        ProjectName = "${var.project}_prod_tfapply-project"
+      }
+    }
+
+    action {
+      category           = "Approval"
+      name               = "approval"
+      owner              = "AWS"
+      provider           = "Manual"
+      region             = data.aws_region.current.name
+      run_order          = 2
       version            = "1"
     }
 
