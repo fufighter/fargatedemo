@@ -38,7 +38,10 @@ data "aws_iam_policy_document" "codebuild" {
     effect = "Allow"
 
     actions = [
-      "codebuild:*"
+      "codebuild:*",
+      "sts:AssumeRole",
+      "iam:PassRole",
+      "iam:ListRoles",
     ]
     resources = ["*"]
   }
@@ -75,7 +78,10 @@ data "aws_iam_policy_document" "codebuild" {
     effect  = "Allow"
     actions = ["s3:*"]
     resources = [
-      "*"
+      var.s3_arn,
+      "${var.s3_arn}/*",
+      "arn:aws:s3:::${var.s3_state_backend}",
+      "arn:aws:s3:::${var.s3_state_backend}/*"
     ]
   }
 

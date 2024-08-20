@@ -22,3 +22,9 @@ variable "s3_arn" {
   type        = string
   description = "Codepipeline S3 Arn"
 }
+
+variable "s3_state_backend" {
+  type        = string
+  description = "Terraform S3 State Backend Bucket"
+  default     = "afu-terraform-state-backend"
+}

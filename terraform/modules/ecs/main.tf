@@ -48,6 +48,7 @@ resource "aws_ecs_service" "service" {
 
 module "sg_ecs" {
   source = "terraform-aws-modules/security-group/aws"
+  version = "5.1.2"
 
   name        = "${var.project}-ecs"
   vpc_id      = var.vpc_id
@@ -75,7 +76,8 @@ module "sg_ecs" {
 
 module "sg_alb" {
   source = "terraform-aws-modules/security-group/aws"
-
+  version = "5.1.2"
+  
   name        = "${var.project}-alb"
   vpc_id      = var.vpc_id
 
