@@ -53,7 +53,7 @@ module "prod_tfplan" {
 
   region                 = var.region
   env_name               = "prod"
-  project                = "${var.project}_${var.env_name}_tfplan"
+  project                = "${var.project}_prod_tfplan"
   buildspec              = "buildspec_tfplan.yml"
   branch                 = "main"
   repo_name              = var.project  
@@ -67,7 +67,7 @@ module "prod_tfapply" {
 
   region                 = var.region
   env_name               = "prod"
-  project                = "${var.project}_${var.env_name}_tfapply"
+  project                = "${var.project}_prod_tfapply"
   buildspec              = "buildspec_tfapply.yml"
   branch                 = "main"
   repo_name              = var.project  
