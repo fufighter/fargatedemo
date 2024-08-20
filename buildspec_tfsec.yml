@@ -10,4 +10,4 @@ phases:
   build:
     commands:
       - "CODE_SRC_DIR=\"./terraform/live/10_${ENVIRONMENT}ecs\""
-      - "checkov -d ${CODEBUILD_SRC_DIR}/${CODE_SRC_DIR}" -o json | jq -r '.results.failed_checks[].check_name'
+      - "checkov -d ${CODEBUILD_SRC_DIR}/${CODE_SRC_DIR} -o json | jq -r '.results.failed_checks[].check_name'"
