@@ -35,11 +35,6 @@ resource "aws_codebuild_project" "project" {
       name  = "IMAGE_REPO_NAME"
       value = "${var.project}"
     }
-
-    environment_variable {
-      name  = "ENVIRONMENT"
-      value = "${var.env_name}"
-    }
   }
 
   logs_config {

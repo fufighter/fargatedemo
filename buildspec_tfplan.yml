@@ -15,6 +15,9 @@ phases:
       - "terraform -v"
   build:
     commands:
+      - "echo $CODE_SRC_DIR"
+      - "ls -ltr"
+      - "ls -ltr ${CODEBUILD_SRC_DIR}/${CODE_SRC_DIR}/"
       - "cp z.auto.tfvars.json ${CODEBUILD_SRC_DIR}/${CODE_SRC_DIR}/"
       - "cd ${CODEBUILD_SRC_DIR}/${CODE_SRC_DIR}"
       - "echo ## TERRAFORM PLAN : Generate the Terraform Plan"
