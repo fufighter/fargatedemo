@@ -40,7 +40,7 @@ module "tfapply" {
   region                 = var.region
   env_name               = var.env_name
   project                = "${var.project}_tfapply"
-  buildspec              = "buildspectf_tfapply.yml"
+  buildspec              = "buildspec_tfapply.yml"
   branch                 = "main"
   repo_name              = var.project  
   s3_name                = local.s3.bucket
