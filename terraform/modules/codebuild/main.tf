@@ -36,6 +36,10 @@ resource "aws_codebuild_project" "project" {
       value = "${var.repo_name}"
     }
 
+    environment_variable {
+      name  = "CUSTOM_VAR1"
+      value = "#{variables.PIPELINE_ENV}"
+    }
   }
 
   logs_config {

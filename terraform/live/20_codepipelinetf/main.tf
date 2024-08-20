@@ -70,7 +70,7 @@ resource "aws_codepipeline" "codepipeline" {
       configuration = {
         ProjectName = "${var.project}_tfplan-project"
         EnvironmentVariables = jsonencode([{
-            name  = "ENVIRONMENT"
+            name  = "PIPELINE_ENV"
             type  = "PLAINTEXT"
             value = "dev"
           }
@@ -105,7 +105,7 @@ resource "aws_codepipeline" "codepipeline" {
       configuration = {
         ProjectName = "${var.project}_tfapply-project"
         EnvironmentVariables = jsonencode([{
-            name  = "ENVIRONMENT"
+            name  = "PIPELINE_ENV"
             type  = "PLAINTEXT"
             value = "dev"
           }
