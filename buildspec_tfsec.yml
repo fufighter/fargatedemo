@@ -6,15 +6,17 @@ phases:
       python: 3.9
     commands:
       - /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+      - eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
       - brew install tfsec
-      - "pip3 install checkov"
-      - "checkov"
+      - brew install checkov
+      - tfsec -v
+      - checkov
   build:
     commands:
-      - CODE_SRC_DIR="./terraform/live/10_${ENVIRONMENT}ecs"
+      - CODE_SRC_DIR="./terraform/live/"
       - echo $CODE_SRC_DIR
-      - checkov -d ${CODEBUILD_SRC_DIR}/${CODE_SRC_DIR} -o json | jq -r '.results.failed_checks[].check_name'      
       - checkov -d ${CODEBUILD_SRC_DIR}/${CODE_SRC_DIR} -o junitxml --soft-fail > checkov.xml
+      - tfsec ${CODEBUILD_SRC_DIR}/${CODE_SRC_DIR} -f junit --soft-fail > tfsec.xml
 artifacts:
   files:
     - '**/*'
@@ -23,4 +25,8 @@ reports:
   checkov:
     files:
       - "checkov.xml"
+    file-format: "JUNITXML"
+  tfsec:
+    files:
+      - "tfsec.xml"
     file-format: "JUNITXML"
