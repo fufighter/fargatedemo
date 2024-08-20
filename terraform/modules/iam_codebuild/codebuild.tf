@@ -38,6 +38,15 @@ data "aws_iam_policy_document" "codebuild" {
     effect = "Allow"
 
     actions = [
+      "codebuild:*"
+    ]
+    resources = ["*"]
+  }
+
+  statement {
+    effect = "Allow"
+
+    actions = [
       "ec2:CreateNetworkInterface",
       "ec2:DescribeDhcpOptions",
       "ec2:DescribeNetworkInterfaces",
@@ -90,7 +99,7 @@ data "aws_iam_policy_document" "codebuild" {
   statement {
     effect = "Allow"
     actions = [
-      "codecommit:GitPull"
+      "codecommit:GitPull",
     ]
     resources = ["*"]
   }
