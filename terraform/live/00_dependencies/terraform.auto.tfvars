@@ -1,0 +1,5 @@
+region           = "us-east-1"
+env_name         = "afu"
+project          = "dog"
+accountid_prod   = "016194978976"
+accountid_qa     = ""

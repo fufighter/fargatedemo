@@ -16,6 +16,7 @@ phases:
       - "terraform -v"
   build:
     commands:
+      - "cat z.auto.tfvars.json"
       - "cp z.auto.tfvars.json ${CODEBUILD_SRC_DIR}/${CODE_SRC_DIR}/"
       - "cd ${CODEBUILD_SRC_DIR}/${CODE_SRC_DIR}"
       - "echo ## TERRAFORM PLAN : Generate the Terraform Plan"
@@ -26,3 +27,4 @@ phases:
 artifacts:
   files:
     - '**/*'
+  name: $IMAGE_REPO_NAME
