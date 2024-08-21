@@ -134,7 +134,7 @@ resource "aws_lb_target_group" "tg" {
     protocol            = "HTTP"
     matcher             = "200"
     timeout             = "20"
-    path                = "/"
+    path                = "/dog"
     port                = var.app_port
     unhealthy_threshold = "2"
   }
