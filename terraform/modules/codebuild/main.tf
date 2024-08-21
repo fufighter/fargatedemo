@@ -50,8 +50,8 @@ resource "aws_codebuild_project" "project" {
 
   source {
     buildspec       = var.buildspec
-    type            = "GITHUB"
-    location        = "https://github.com/fufighter/fargatedemo"
+    type            = var.source_type
+    location        = var.source_location
     git_clone_depth = 1
     
     git_submodules_config {

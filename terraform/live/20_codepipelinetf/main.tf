@@ -1,5 +1,3 @@
-data "aws_region" "current" {}
-
 resource "aws_codepipeline" "codepipeline" {
   name     = "${var.project}tf-pipeline"
   role_arn = local.iam_codepipeline.arn
@@ -77,7 +75,7 @@ resource "aws_codepipeline" "codepipeline" {
       name               = "approval"
       owner              = "AWS"
       provider           = "Manual"
-      region             = data.aws_region.current.name
+      region             = var.region
       run_order          = 2
       version            = "1"
     }
@@ -107,7 +105,7 @@ resource "aws_codepipeline" "codepipeline" {
       name               = "approval"
       owner              = "AWS"
       provider           = "Manual"
-      region             = data.aws_region.current.name
+      region             = var.region
       run_order          = 2
       version            = "1"
     }
@@ -137,7 +135,7 @@ resource "aws_codepipeline" "codepipeline" {
       name               = "approval"
       owner              = "AWS"
       provider           = "Manual"
-      region             = data.aws_region.current.name
+      region             = var.region
       run_order          = 2
       version            = "1"
     }
@@ -167,7 +165,7 @@ resource "aws_codepipeline" "codepipeline" {
       name               = "approval"
       owner              = "AWS"
       provider           = "Manual"
-      region             = data.aws_region.current.name
+      region             = var.region
       run_order          = 2
       version            = "1"
     }
@@ -197,7 +195,7 @@ resource "aws_codepipeline" "codepipeline" {
       name               = "approval"
       owner              = "AWS"
       provider           = "Manual"
-      region             = data.aws_region.current.name
+      region             = var.region
       run_order          = 2
       version            = "1"
     }

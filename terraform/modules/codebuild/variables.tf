@@ -42,3 +42,13 @@ variable "buildspec" {
   type        = string
   description = "Name of buildspec file"
 }
+
+variable "source_location" {
+  type        = string
+  description = "URL to git project"
+}
+
+variable "source_type" {
+  type        = string
+  description = "Source type"
+}

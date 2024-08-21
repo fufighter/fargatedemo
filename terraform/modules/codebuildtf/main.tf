@@ -35,6 +35,11 @@ resource "aws_codebuild_project" "project" {
       name  = "IMAGE_REPO_NAME"
       value = "${var.project}"
     }
+
+    environment_variable {
+      name  = "ENVIRONMENT"
+      value = "${var.env_name}"
+    }
   }
 
   logs_config {
@@ -45,7 +50,13 @@ resource "aws_codebuild_project" "project" {
 
   source {
     buildspec       = var.buildspec
-    type            = "S3"
-    location        = var.location
+    type            = var.source_type
+    location        = var.source_location
+
+    git_clone_depth = 1
+    
+    git_submodules_config {
+      fetch_submodules = true
+    }
   }
 }
