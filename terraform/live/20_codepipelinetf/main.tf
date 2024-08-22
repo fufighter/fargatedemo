@@ -71,22 +71,22 @@ resource "aws_codepipeline" "codepipeline" {
     }
 
     action {
-      category           = "Approval"
-      name               = "approval"
-      owner              = "AWS"
-      provider           = "Manual"
-      region             = var.region
-      run_order          = 2
-      version            = "1"
+      name             = "approval"
+      category         = "Approval"
+      owner            = "AWS"
+      provider         = "Manual"
+      region           = var.region
+      run_order        = 2
+      version          = "1"
     }
 
   }
 
   stage {
-    name = "TFDevPlan"
+    name = "TFDev"
 
     action {
-      name             = "Build"
+      name             = "Dev_Terraform_Plan"
       namespace        = "TFDevPlan"
       category         = "Build"
       owner            = "AWS"
@@ -101,28 +101,24 @@ resource "aws_codepipeline" "codepipeline" {
     }
 
     action {
-      category           = "Approval"
-      name               = "approval"
-      owner              = "AWS"
-      provider           = "Manual"
-      region             = var.region
-      run_order          = 2
-      version            = "1"
+      name             = "Terraform_Plan_Approval"
+      category         = "Approval"
+      owner            = "AWS"
+      provider         = "Manual"
+      region           = var.region
+      run_order        = 2
+      version          = "1"
     }
 
-  }
-
-  stage {
-    name = "TFDevApply"
-
     action {
-      name             = "Build"
+      name             = "Dev_Terraform_Apply"
       namespace        = "TFDevApply"
       category         = "Build"
       owner            = "AWS"
       provider         = "CodeBuild"
       input_artifacts  = ["TFDevPlanArtifact"]
       output_artifacts = ["TFDevApplyArtifact"]
+      run_order        = 3
       version          = "1"
 
       configuration = {
@@ -131,22 +127,21 @@ resource "aws_codepipeline" "codepipeline" {
     }
 
     action {
-      category           = "Approval"
-      name               = "approval"
-      owner              = "AWS"
-      provider           = "Manual"
-      region             = var.region
-      run_order          = 2
-      version            = "1"
+      name             = "Terraform_Apply_Approval"
+      category         = "Approval"
+      owner            = "AWS"
+      provider         = "Manual"
+      region           = var.region
+      run_order        = 4
+      version          = "1"
     }
-
   }
 
   stage {
-    name = "TFProdPlan"
+    name = "TFProd"
 
     action {
-      name             = "Build"
+      name             = "Prod_Terraform_Plan"
       namespace        = "TFProdPlan"
       category         = "Build"
       owner            = "AWS"
@@ -161,19 +156,14 @@ resource "aws_codepipeline" "codepipeline" {
     }
 
     action {
-      category           = "Approval"
-      name               = "approval"
-      owner              = "AWS"
-      provider           = "Manual"
-      region             = var.region
-      run_order          = 2
-      version            = "1"
+      name             = "Terraform_Plan_Approval"
+      category         = "Approval"
+      owner            = "AWS"
+      provider         = "Manual"
+      region           = var.region
+      run_order        = 2
+      version          = "1"
     }
-
-  }
-
-  stage {
-    name = "TFProdApply"
 
     action {
       name             = "Build"
@@ -183,6 +173,7 @@ resource "aws_codepipeline" "codepipeline" {
       provider         = "CodeBuild"
       input_artifacts  = ["TFProdPlanArtifact"]
       output_artifacts = ["TFProdApplyArtifact"]
+      run_order        = 3
       version          = "1"
 
       configuration = {
@@ -191,15 +182,14 @@ resource "aws_codepipeline" "codepipeline" {
     }
 
     action {
-      category           = "Approval"
-      name               = "approval"
-      owner              = "AWS"
-      provider           = "Manual"
-      region             = var.region
-      run_order          = 2
-      version            = "1"
+      name             = "Terraform_Apply_Approval"
+      category         = "Approval"
+      owner            = "AWS"
+      provider         = "Manual"
+      region           = var.region
+      run_order        = 4
+      version          = "1"
     }
-
   }
 }
 
