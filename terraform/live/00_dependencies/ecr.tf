@@ -31,6 +31,10 @@ data "aws_iam_policy_document" "example" {
 }
 
 resource "aws_ecr_repository_policy" "example" {
+  depends_on = [
+    module.iam_ecs_dev,
+    module.iam_ecs_prod
+  ]
   repository = aws_ecr_repository.repo.name
   policy     = data.aws_iam_policy_document.example.json
 }
