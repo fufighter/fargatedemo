@@ -51,9 +51,24 @@ resource "aws_codepipeline" "codepipeline" {
         ProjectName = module.codebuild["docker"].codebuild.id
         EnvironmentVariables = jsonencode(
           [{
+            name  = "ENVIRONMENT"
+            type  = "PLAINTEXT"
+            value = "dev"
+          },
+          {
+            name  = "ECS_STATUS_ROLE"
+            type  = "PLAINTEXT"
+            value = local.ecs_dev
+          },
+          {
             name  = "COMMIT_ID"
             type  = "PLAINTEXT"
             value = "#{SourceVariables.CommitId}"
+          },
+          {
+            name  = "COMMIT_URL"
+            type  = "PLAINTEXT"
+            value = "#{SourceVariables.CommitUrl}"
           },
           {
             name  = "BRANCH_NAME"

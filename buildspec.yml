@@ -7,6 +7,7 @@ phases:
   pre_build:
     commands:
       - echo COMMIT_ID - $COMMIT_ID
+      - echo COMMIT_URL - $COMMIT_URL
       - echo BRANCH_NAME - $BRANCH_NAME
       - REPOSITORY_URI=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
       - echo Build started on `date`
