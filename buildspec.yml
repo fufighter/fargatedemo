@@ -6,6 +6,9 @@ phases:
       java: corretto17
   pre_build:
     commands:
+      - echo CODEBUILD_SOURCE_VERSION - $CODEBUILD_SOURCE_VERSION
+      - echo CODEBUILD_SOURCE_REPO_URL - $CODEBUILD_SOURCE_REPO_URL
+      - echo CODEBUILD_RESOLVED_SOURCE_VERSION - $CODEBUILD_RESOLVED_SOURCE_VERSION
       - REPOSITORY_URI=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
       - echo Build started on `date`
       - mvn clean package
