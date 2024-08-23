@@ -6,7 +6,7 @@ phases:
       java: corretto17
   pre_build:
     commands:
-      - echo COMMIT_ID - $COMMIT_ID
+      - echo CODEBUILD_WEBHOOK_TRIGGER - $CODEBUILD_WEBHOOK_TRIGGER
       - echo COMMIT_URL - $COMMIT_URL
       - echo BRANCH_NAME - $BRANCH_NAME
       - REPOSITORY_URI=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
