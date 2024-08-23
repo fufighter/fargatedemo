@@ -14,7 +14,7 @@ phases:
       - "terraform -v"
   build:
     commands:
-      - "CODE_SRC_DIR=\"./terraform/live/10_${ENVIRONMENT}ecs\""
+      - "CODE_SRC_DIR=\"./terraform/live/${ENVIRONMENT}ecs\""
       - "echo $CODE_SRC_DIR"
       - "cp z.auto.tfvars.json ${CODEBUILD_SRC_DIR}/${CODE_SRC_DIR}/"
       - "cd ${CODEBUILD_SRC_DIR}/${CODE_SRC_DIR}"
