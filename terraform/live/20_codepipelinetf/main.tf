@@ -1,6 +1,7 @@
 resource "aws_codepipeline" "codepipeline" {
-  name     = "${var.project}tf-pipeline"
-  role_arn = local.iam_codepipeline.arn
+  name          = "${var.project}tf-pipeline"
+  pipeline_type = "V2"
+  role_arn      = local.iam_codepipeline.arn
 
   artifact_store {
     location = local.s3.bucket
@@ -166,7 +167,7 @@ resource "aws_codepipeline" "codepipeline" {
     }
 
     action {
-      name             = "Build"
+      name             = "Prod_Terraform_Apply"
       namespace        = "TFProdApply"
       category         = "Build"
       owner            = "AWS"
