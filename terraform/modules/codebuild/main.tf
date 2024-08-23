@@ -45,6 +45,16 @@ resource "aws_codebuild_project" "project" {
       name  = "ECS_STATUS_ROLE"
       value = "#{variables.ECS_STATUS_ROLE}"
     }
+
+    environment_variable {
+      name  = "COMMIT_ID"
+      value = "#{SourceVariables.CommitId}"
+    }
+
+    environment_variable {
+      name  = "BRANCH_NAME"
+      value = "#{SourceVariables.BranchName}"
+    }
   }
 
   logs_config {
