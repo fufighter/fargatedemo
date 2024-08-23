@@ -38,7 +38,7 @@ data "terraform_remote_state" "network" {
 
 locals {
   app_port = 8080
-  iam_ecs = data.terraform_remote_state.dependencies.outputs.ecs
+  iam_ecs = data.terraform_remote_state.dependencies.outputs.ecs_dev
   vpc = data.terraform_remote_state.network.outputs["vpc"]
   private_subnets = [
     local.vpc.private_subnet_ids["afu-private1"],
