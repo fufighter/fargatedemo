@@ -3,11 +3,6 @@ variable "region" {
   description = "Region to deploy resources"
 }
 
-variable "env_name" {
-  type        = string
-  description = "Name of the environment to deploy"
-}
-
 variable "project" {
   type        = string
   description = "Name of the project"

@@ -13,6 +13,11 @@ variable "project" {
   description = "Name of the project"
 }
 
+variable "buildprojects" {
+  type        = map
+  description = "List of CodeBuild Projects"
+}
+
 data "terraform_remote_state" "dependencies" {
   backend = "s3"
   config = {

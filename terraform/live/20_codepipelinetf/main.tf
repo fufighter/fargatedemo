@@ -98,6 +98,13 @@ resource "aws_codepipeline" "codepipeline" {
 
       configuration = {
         ProjectName = "${var.project}_tfplan-project"
+        EnvironmentVariables = jsonencode(
+          [{
+            name  = "ENVIRONMENT"
+            type  = "PLAINTEXT"
+            value = "dev"
+          }]
+        )
       }
     }
 
@@ -124,6 +131,13 @@ resource "aws_codepipeline" "codepipeline" {
 
       configuration = {
         ProjectName = "${var.project}_tfapply-project"
+        EnvironmentVariables = jsonencode(
+          [{
+            name  = "ENVIRONMENT"
+            type  = "PLAINTEXT"
+            value = "dev"
+          }]
+        )
       }
     }
 
@@ -152,7 +166,14 @@ resource "aws_codepipeline" "codepipeline" {
       version          = "1"
 
       configuration = {
-        ProjectName = "${var.project}_prod_tfplan-project"
+        ProjectName = "${var.project}_tfplan-project"
+        EnvironmentVariables = jsonencode(
+          [{
+            name  = "ENVIRONMENT"
+            type  = "PLAINTEXT"
+            value = "prod"
+          }]
+        )
       }
     }
 
@@ -178,7 +199,14 @@ resource "aws_codepipeline" "codepipeline" {
       version          = "1"
 
       configuration = {
-        ProjectName = "${var.project}_prod_tfapply-project"
+        ProjectName = "${var.project}_tfapply-project"
+        EnvironmentVariables = jsonencode(
+          [{
+            name  = "ENVIRONMENT"
+            type  = "PLAINTEXT"
+            value = "prod"
+          }]
+        )
       }
     }
 

@@ -38,13 +38,13 @@ resource "aws_codebuild_project" "project" {
 
     environment_variable {
       name  = "ENVIRONMENT"
-      value = "${var.env_name}"
+      value = "#{variables.ENVIRONMENT}"
     }
   }
 
   logs_config {
     cloudwatch_logs {
-      group_name  = "/aws/codebuild/${var.project}/${var.env_name}"
+      group_name  = "/aws/codebuild/${var.project}"
     }
   }
 
