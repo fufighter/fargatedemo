@@ -37,23 +37,8 @@ resource "aws_codebuild_project" "project" {
     }
 
     environment_variable {
-      name  = "ENVIRONMENT"
-      value = "#{variables.ENVIRONMENT}"
-    }
-
-    environment_variable {
-      name  = "ECS_STATUS_ROLE"
-      value = "#{variables.ECS_STATUS_ROLE}"
-    }
-
-    environment_variable {
       name  = "COMMIT_ID"
       value = "#{variables.COMMIT_ID}"
-    }
-
-    environment_variable {
-      name  = "COMMIT_URL"
-      value = "#{variables.COMMIT_URL}"
     }
 
     environment_variable {

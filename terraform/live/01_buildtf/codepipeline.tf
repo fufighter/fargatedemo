@@ -66,11 +66,6 @@ resource "aws_codepipeline" "codepipeline" {
             value = "#{SourceVariables.CommitId}"
           },
           {
-            name  = "COMMIT_URL"
-            type  = "PLAINTEXT"
-            value = "#{SourceVariables.CommitUrl}"
-          },
-          {
             name  = "BRANCH_NAME"
             type  = "PLAINTEXT"
             value = "#{SourceVariables.BranchName}"
