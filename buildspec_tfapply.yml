@@ -18,7 +18,7 @@ phases:
       - "cd ${CODEBUILD_SRC_DIR}/${CODE_SRC_DIR}"
       - "echo ###### TERRAFORM APPLY ######"
       - "terraform apply tfapply"
-      - "bash ${CODEBUILD_SRC_DIR}/scripts/ecs_${ENVIRONMENT}_status.sh"
+      - "bash ${CODEBUILD_SRC_DIR}/scripts/ecs_status.sh"
 artifacts:
   files:
     - '**/*'
