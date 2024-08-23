@@ -59,17 +59,12 @@ resource "aws_codepipeline" "codepipeline" {
             name  = "BRANCH_NAME"
             type  = "PLAINTEXT"
             value = "#{SourceVariables.BranchName}"
-          },
-          {
-            name  = "COMMIT_URL"
-            type  = "PLAINTEXT"
-            value = "#{SourceVariables.CommitUrl}"
           }]
         )
       }
     }
   }
-  
+
   stage {
     name = "TFDevSec"
 

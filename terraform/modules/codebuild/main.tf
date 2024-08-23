@@ -52,11 +52,6 @@ resource "aws_codebuild_project" "project" {
     }
 
     environment_variable {
-      name  = "COMMIT_URL"
-      value = "#{variables.COMMIT_URL}"
-    }
-
-    environment_variable {
       name  = "BRANCH_NAME"
       value = "#{variables.BRANCH_NAME}"
     }
