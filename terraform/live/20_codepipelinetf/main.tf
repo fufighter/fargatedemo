@@ -48,7 +48,7 @@ resource "aws_codepipeline" "codepipeline" {
       version          = "1"
 
       configuration = {
-        ProjectName = "${var.project}-project"
+        ProjectName = "${var.project}_docker-project"
       }
     }
   }
