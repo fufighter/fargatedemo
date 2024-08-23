@@ -9,8 +9,11 @@ module "iam_codebuild" {
 
 }
 
-module "iam_ecs" {
+module "iam_ecs_dev" {
   source = "../../modules/iam_ecs"
+  providers = {
+    aws = aws.dev
+  }
 
   region                 = "us-east-1"
   env_name               = "dev"

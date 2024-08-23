@@ -40,6 +40,11 @@ resource "aws_codebuild_project" "project" {
       name  = "ENVIRONMENT"
       value = "#{variables.ENVIRONMENT}"
     }
+
+    environment_variable {
+      name  = "ECS_STATUS_ROLE"
+      value = "#{variables.ECS_STATUS_ROLE}"
+    }
   }
 
   logs_config {

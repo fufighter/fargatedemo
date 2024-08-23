@@ -6,8 +6,8 @@ output "codepipeline" {
     value = module.iam_codebuild.codepipeline
 }
 
-output "ecs" {
-    value = module.iam_ecs.ecs
+output "ecs_dev" {
+    value = module.iam_ecs_dev.ecs
 }
 
 output "ecs_prod" {
