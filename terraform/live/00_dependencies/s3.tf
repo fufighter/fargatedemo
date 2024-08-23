@@ -16,7 +16,10 @@ data "aws_iam_policy_document" "s3" {
     sid    = "s3"
     effect = "Allow"
     principals {
-      identifiers = ["arn:aws:iam::${var.accountid_prod}:root"]
+      identifiers = [
+        module.iam_ecs_dev.ecs.arn,
+        module.iam_ecs_prod.ecs.arn
+      ]
       type        = "AWS"
     }
     actions = [
@@ -32,7 +35,10 @@ data "aws_iam_policy_document" "s3" {
     sid    = "s3list"
     effect = "Allow"
     principals {
-      identifiers = ["arn:aws:iam::${var.accountid_prod}:root"]
+      identifiers = [
+        module.iam_ecs_dev.ecs.arn,
+        module.iam_ecs_prod.ecs.arn
+      ]
       type        = "AWS"
     }
     actions = [

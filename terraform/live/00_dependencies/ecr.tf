@@ -15,7 +15,8 @@ data "aws_iam_policy_document" "example" {
     principals {
       type        = "AWS"
       identifiers = [
-        "arn:aws:iam::${var.accountid_prod}:root"
+        module.iam_ecs_dev.ecs.arn,
+        module.iam_ecs_prod.ecs.arn
       ]
     }
 
