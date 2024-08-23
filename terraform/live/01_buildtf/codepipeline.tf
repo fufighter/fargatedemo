@@ -49,10 +49,27 @@ resource "aws_codepipeline" "codepipeline" {
 
       configuration = {
         ProjectName = module.codebuild["docker"].codebuild.id
+        EnvironmentVariables = jsonencode(
+          [{
+            name  = "COMMIT_ID"
+            type  = "PLAINTEXT"
+            value = "#{SourceVariables.CommitId}"
+          },
+          {
+            name  = "BRANCH_NAME"
+            type  = "PLAINTEXT"
+            value = "#{SourceVariables.BranchName}"
+          },
+          {
+            name  = "COMMIT_URL"
+            type  = "PLAINTEXT"
+            value = "#{SourceVariables.CommitUrl}"
+          }]
+        )
       }
     }
   }
-
+  
   stage {
     name = "TFDevSec"
 
