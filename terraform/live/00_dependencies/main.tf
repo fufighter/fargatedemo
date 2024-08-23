@@ -7,6 +7,14 @@ provider "aws" {
 }
 
 provider "aws" {
+  alias  = "dev"
+  region = var.region
+  assume_role {
+    role_arn = "arn:aws:iam::898649339363:role/terraform-execute"
+  }  
+}
+
+provider "aws" {
   alias  = "prod"
   region = var.region
   assume_role {
