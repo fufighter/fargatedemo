@@ -50,6 +50,7 @@ module "tfapply" {
   source_location        = "https://github.com/fufighter/fargatedemo"
   source_type            = "GITHUB"
   s3_name                = local.s3.bucket
+  timeout                = 10
   iam_codebuild_arn      = local.iam_codebuild.arn
   codepipeline_accountid = data.aws_caller_identity.current.account_id
 }
@@ -82,6 +83,7 @@ module "prod_tfapply" {
   source_location        = "https://github.com/fufighter/fargatedemo"
   source_type            = "GITHUB" 
   s3_name                = local.s3.bucket
+  timeout                = 10
   iam_codebuild_arn      = local.iam_codebuild.arn
   codepipeline_accountid = data.aws_caller_identity.current.account_id
 }

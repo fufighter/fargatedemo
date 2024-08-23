@@ -52,3 +52,9 @@ variable "source_type" {
   type        = string
   description = "Source type"
 }
+
+variable "timeout" {
+  type        = number
+  description = "CodeBuild timeout in minutes"
+  default     = 5
+}

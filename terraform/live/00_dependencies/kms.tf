@@ -7,8 +7,6 @@ module "kms" {
   # Policy
   key_administrators = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"]
   key_users          = [
-    module.iam_ecs.ecs.arn,
-    module.iam_ecs_prod.ecs.arn,
     module.iam_codebuild.codebuild.arn,
     module.iam_codebuild.codepipeline.arn
   ]
