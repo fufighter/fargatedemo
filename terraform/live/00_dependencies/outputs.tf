@@ -22,10 +22,6 @@ output "ecr" {
     value = aws_ecr_repository.repo
 }
 
-output "codecommit" {
-    value = aws_codecommit_repository.repo
-}
-
 output "kms" {
     value = module.kms.key_arn
 }
