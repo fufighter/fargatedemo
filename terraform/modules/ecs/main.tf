@@ -28,6 +28,7 @@ resource "aws_ecs_task_definition" "task" {
 }
 
 resource "aws_ecs_service" "service" {
+  depends_on      = [aws_lb_target_group.tg, aws_lb_listener.http_forward]
   name            = var.project
   cluster         = aws_ecs_cluster.ecs.id
   launch_type     = "FARGATE"
@@ -110,13 +111,21 @@ resource "aws_lb" "alb" {
 }
 
 resource "aws_lb_listener" "http_forward" {
+  depends_on        = [aws_lb_target_group.tg]
   load_balancer_arn = aws_lb.alb.arn
   port              = 80
   protocol          = "HTTP"
 
   default_action {
     type             = "forward"
+    order            = 10
     target_group_arn = aws_lb_target_group.tg.arn
+  }
+
+  lifecycle {
+    replace_triggered_by = [
+      aws_lb_target_group.tg
+    ]
   }
 }
 

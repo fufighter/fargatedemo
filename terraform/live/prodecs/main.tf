@@ -16,6 +16,6 @@ module "prod" {
   project        = var.project
   vpc_id         = local.vpc.vpc_id
   iam_ecs_arn    = local.ecs.arn
-  app_port       = 8081
+  app_port       = 8888
   public_subnets = local.public_subnets
 } 
