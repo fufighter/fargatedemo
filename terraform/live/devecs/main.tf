@@ -13,6 +13,6 @@ module "dev" {
   project        = var.project
   vpc_id         = local.vpc.vpc_id
   iam_ecs_arn    = local.iam_ecs.arn
-  app_port       = 8080
+  app_port       = 8081
   public_subnets = local.public_subnets
 } 
