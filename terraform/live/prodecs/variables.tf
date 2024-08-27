@@ -37,8 +37,11 @@ data "terraform_remote_state" "vpc" {
 }
 
 locals {
-  app_port        = 8080
-  ecs             = data.terraform_remote_state.dependencies.outputs.ecs_prod
+  ecs = data.terraform_remote_state.dependencies.outputs.ecs_prod
+  environment_variables = [
+    {"name": "VARNAME01", "value": "VARVAL01"},
+    {"name": "VARNAME02", "value": "VARVAL02"}
+  ]
   vpc             = data.terraform_remote_state.vpc.outputs["vpc"]
   private_subnets = values(local.vpc.private_subnet_ids)
   public_subnets  = values(local.vpc.public_subnet_ids)

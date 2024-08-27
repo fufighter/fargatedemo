@@ -11,11 +11,12 @@ resource "aws_ecs_task_definition" "task" {
   requires_compatibilities = ["FARGATE"]
   container_definitions = jsonencode([
     {
-      name      = var.project
-      image     = var.image
-      cpu       = 256
-      memory    = 512
-      essential = true
+      name         = var.project
+      image        = var.image
+      cpu          = 256
+      memory       = 512
+      environment  = var.environment_variables
+      essential    = true
       portMappings = [
         {
           containerPort = var.app_port

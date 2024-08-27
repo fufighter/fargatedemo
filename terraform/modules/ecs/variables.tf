@@ -37,3 +37,9 @@ variable "public_subnets" {
   type        = list(string)
   description = "List of Public Subnets"
 }
+
+variable "environment_variables" {
+  type        = list(any)
+  description = "List of application environment variables"
+  default     = null
+}

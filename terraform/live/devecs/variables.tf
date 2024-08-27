@@ -37,18 +37,12 @@ data "terraform_remote_state" "network" {
 }
 
 locals {
-  app_port = 8080
-  iam_ecs = data.terraform_remote_state.dependencies.outputs.ecs_dev
-  vpc = data.terraform_remote_state.network.outputs["vpc"]
-  private_subnets = [
-    local.vpc.private_subnet_ids["afu-private1"],
-    local.vpc.private_subnet_ids["afu-private2"],
-    local.vpc.private_subnet_ids["afu-private3"]
+  ecs = data.terraform_remote_state.dependencies.outputs.ecs_dev
+  environment_variables = [
+    {"name": "VARNAME01", "value": "VARVAL01"},
+    {"name": "VARNAME02", "value": "VARVAL02"}
   ]
-  public_subnets = [
-    local.vpc.public_subnet_ids["afu-public1"],
-    local.vpc.public_subnet_ids["afu-public2"],
-    local.vpc.public_subnet_ids["afu-public3"]
-  ]
-  my_ip = "173.68.134.152/32"
+  vpc             = data.terraform_remote_state.network.outputs["vpc"]
+  private_subnets = values(local.vpc.private_subnet_ids)
+  public_subnets  = values(local.vpc.public_subnet_ids)
 }
