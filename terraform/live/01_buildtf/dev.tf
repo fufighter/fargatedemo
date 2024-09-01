@@ -1,5 +1,5 @@
-resource "aws_codepipeline" "codepipeline" {
-  name          = "${var.project}tf-pipeline"
+resource "aws_codepipeline" "build_dev" {
+  name          = "${var.project}tf-build-dev"
   pipeline_type = "V2"
   role_arn      = local.iam_codepipeline.arn
 
@@ -28,7 +28,7 @@ resource "aws_codepipeline" "codepipeline" {
 
       configuration = {
         BranchName           = "main"
-        ConnectionArn        = aws_codestarconnections_connection.github.arn
+        ConnectionArn        = aws_codestarconnections_connection.github_dev.arn
         FullRepositoryId     = "fufighter/fargatedemo"
       }
     }
@@ -49,17 +49,7 @@ resource "aws_codepipeline" "codepipeline" {
 
       configuration = {
         ProjectName = module.codebuild["docker"].codebuild.id
-        EnvironmentVariables = jsonencode(
-          [{
-            name  = "ENVIRONMENT"
-            type  = "PLAINTEXT"
-            value = "dev"
-          },
-          {
-            name  = "ECS_STATUS_ROLE"
-            type  = "PLAINTEXT"
-            value = local.ecs_dev
-          },
+        EnvironmentVariables = jsonencode([
           {
             name  = "COMMIT_ID"
             type  = "PLAINTEXT"
@@ -69,6 +59,11 @@ resource "aws_codepipeline" "codepipeline" {
             name  = "BRANCH_NAME"
             type  = "PLAINTEXT"
             value = "#{SourceVariables.BranchName}"
+          },
+          {
+            name  = "IMAGE_REPO_NAME"
+            type  = "PLAINTEXT"
+            value = "${var.project}_release"
           }]
         )
       }
@@ -104,6 +99,77 @@ resource "aws_codepipeline" "codepipeline" {
     }
 
   }
+}
+
+resource "aws_codepipeline" "deploy_dev" {
+  name          = "${var.project}tf-deploy-dev"
+  pipeline_type = "V2"
+  role_arn      = local.iam_codepipeline.arn
+
+  artifact_store {
+    location = local.s3.bucket
+    type     = "S3"
+
+    encryption_key {
+      id   = local.kms
+      type = "KMS"
+    }
+
+  }
+
+  stage {
+    name = "Source"
+
+    action {
+      name             = "ECR"
+      namespace        = "ECRVariables"
+      category         = "Source"
+      owner            = "AWS"
+      provider         = "ECR"
+      version          = "1"
+      output_artifacts = ["ECRArtifact"]
+
+      configuration = {
+        RepositoryName = local.ecr_dev.name
+      }
+    }
+
+    action {
+      name             = "GitHub"
+      namespace        = "SourceVariables"
+      category         = "Source"
+      owner            = "AWS"
+      provider         = "CodeStarSourceConnection"
+      version          = "1"
+      output_artifacts = ["SourceArtifact"]
+
+      configuration = {
+        BranchName           = "main"
+        ConnectionArn        = aws_codestarconnections_connection.github_dev.arn
+        FullRepositoryId     = "fufighter/fargatedemo"
+      }
+    }
+  }
+
+  stage {
+    name = "TFDevSec"
+
+    action {
+      name             = "TFDevSec"
+      namespace        = "TFDevSec"
+      category         = "Build"
+      owner            = "AWS"
+      provider         = "CodeBuild"
+      input_artifacts  = ["SourceArtifact"]
+      output_artifacts = ["TFDevSecArtifact"]
+      version          = "1"
+
+      configuration = {
+        ProjectName = module.codebuild["tfsec"].codebuild.id
+      }
+    }
+
+  }
 
   stage {
     name = "TFDev"
@@ -114,30 +180,27 @@ resource "aws_codepipeline" "codepipeline" {
       category         = "Build"
       owner            = "AWS"
       provider         = "CodeBuild"
-      input_artifacts  = ["TFDevSecArtifact"]
+      input_artifacts  = ["ECRArtifact", "SourceArtifact"]
       output_artifacts = ["TFDevPlanArtifact"]
       version          = "1"
 
       configuration = {
-        ProjectName = module.codebuild["tfplan"].codebuild.id
+        PrimarySource        = "SourceArtifact"
+        ProjectName          = module.codebuild["tfplan_ecr"].codebuild.id
         EnvironmentVariables = jsonencode(
           [{
             name  = "ENVIRONMENT"
             type  = "PLAINTEXT"
             value = "dev"
-          }]
+          },
+          {
+            name = "IMAGE_URI"
+            type = "PLAINTEXT"
+            value = "#{ECRVariables.ImageURI}"
+          }
+          ]
         )
       }
-    }
-
-    action {
-      name             = "Terraform_Plan_Approval"
-      category         = "Approval"
-      owner            = "AWS"
-      provider         = "Manual"
-      region           = var.region
-      run_order        = 2
-      version          = "1"
     }
 
     action {
@@ -167,94 +230,10 @@ resource "aws_codepipeline" "codepipeline" {
         )
       }
     }
-
-    action {
-      name             = "Terraform_Apply_Approval"
-      category         = "Approval"
-      owner            = "AWS"
-      provider         = "Manual"
-      region           = var.region
-      run_order        = 4
-      version          = "1"
-    }
-  }
-
-  stage {
-    name = "TFProd"
-
-    action {
-      name             = "Prod_Terraform_Plan"
-      namespace        = "TFProdPlan"
-      category         = "Build"
-      owner            = "AWS"
-      provider         = "CodeBuild"
-      input_artifacts  = ["TFDevApplyArtifact"]
-      output_artifacts = ["TFProdPlanArtifact"]
-      version          = "1"
-
-      configuration = {
-        ProjectName = module.codebuild["tfplan"].codebuild.id
-        EnvironmentVariables = jsonencode(
-          [{
-            name  = "ENVIRONMENT"
-            type  = "PLAINTEXT"
-            value = "prod"
-          }]
-        )
-      }
-    }
-
-    action {
-      name             = "Terraform_Plan_Approval"
-      category         = "Approval"
-      owner            = "AWS"
-      provider         = "Manual"
-      region           = var.region
-      run_order        = 2
-      version          = "1"
-    }
-
-    action {
-      name             = "Prod_Terraform_Apply"
-      namespace        = "TFProdApply"
-      category         = "Build"
-      owner            = "AWS"
-      provider         = "CodeBuild"
-      input_artifacts  = ["TFProdPlanArtifact"]
-      output_artifacts = ["TFProdApplyArtifact"]
-      run_order        = 3
-      version          = "1"
-
-      configuration = {
-        ProjectName = module.codebuild["tfapply"].codebuild.id
-        EnvironmentVariables = jsonencode(
-          [{
-            name  = "ENVIRONMENT"
-            type  = "PLAINTEXT"
-            value = "prod"
-          },
-          {
-            name  = "ECS_STATUS_ROLE"
-            type  = "PLAINTEXT"
-            value = local.ecs_prod
-          }]
-        )
-      }
-    }
-
-    action {
-      name             = "Terraform_Apply_Approval"
-      category         = "Approval"
-      owner            = "AWS"
-      provider         = "Manual"
-      region           = var.region
-      run_order        = 4
-      version          = "1"
-    }
   }
 }
 
-resource "aws_codestarconnections_connection" "github" {
-  name          = "github-connection"
+resource "aws_codestarconnections_connection" "github_dev" {
+  name          = "github-connection-dev"
   provider_type = "GitHub"
 }

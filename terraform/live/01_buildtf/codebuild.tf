@@ -6,7 +6,6 @@ module "codebuild" {
   project                = "${var.project}_${each.key}"
   buildspec              = each.value
   branch                 = "main"
-  repo_name              = var.project
   source_location        = "https://github.com/fufighter/fargatedemo"
   source_type            = "GITHUB"
   s3_name                = local.s3.bucket

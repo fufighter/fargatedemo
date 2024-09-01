@@ -23,8 +23,10 @@ data "terraform_remote_state" "dependencies" {
 }
 
 locals {
-  ecr              = data.terraform_remote_state.dependencies.outputs.ecr
+  ecr_dev          = data.terraform_remote_state.dependencies.outputs.ecr_dev
+  ecr_release      = data.terraform_remote_state.dependencies.outputs.ecr_release
   ecs_dev          = data.terraform_remote_state.dependencies.outputs.ecs_dev.arn
+  ecs_qa           = data.terraform_remote_state.dependencies.outputs.ecs_qa.arn
   ecs_prod         = data.terraform_remote_state.dependencies.outputs.ecs_prod.arn
   iam_codebuild    = data.terraform_remote_state.dependencies.outputs.codebuild
   iam_codepipeline = data.terraform_remote_state.dependencies.outputs.codepipeline
