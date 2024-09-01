@@ -33,7 +33,7 @@ resource "aws_codebuild_project" "project" {
 
     environment_variable {
       name  = "IMAGE_REPO_NAME"
-      value = "${var.repo_name}"
+      value = "#{variables.IMAGE_REPO_NAME}"
     }
 
     environment_variable {

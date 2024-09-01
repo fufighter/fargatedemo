@@ -18,11 +18,6 @@ variable "branch" {
   description = "Name of branch"
 }
 
-variable "repo_name" {
-  type        = string
-  description = "Name of ECR repo"
-}
-
 variable "s3_name" {
   type        = string
   description = "Name of bucket"

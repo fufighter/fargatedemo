@@ -21,6 +21,7 @@ variable "image" {
 variable "app_port" {
   type        = number
   description = "Application Port"
+  default     = 8080
 }
 
 variable "iam_ecs_arn" {  

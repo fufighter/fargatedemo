@@ -49,7 +49,8 @@ data "aws_iam_policy_document" "codepipeline" {
       "cloudwatch:*",
       "kms:*",
       "s3:*",
-      "ecs:*"
+      "ecs:*",
+      "ecr:*"
     ]
     resources = ["*"]
   }
