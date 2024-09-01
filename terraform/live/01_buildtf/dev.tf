@@ -68,10 +68,6 @@ resource "aws_codepipeline" "build_dev" {
         )
       }
     }
-  }
-
-  stage {
-    name = "TFDevSec"
 
     action {
       name             = "TFDevSec"
@@ -79,7 +75,7 @@ resource "aws_codepipeline" "build_dev" {
       category         = "Build"
       owner            = "AWS"
       provider         = "CodeBuild"
-      input_artifacts  = ["BuildArtifact"]
+      input_artifacts  = ["SourceArtifact"]
       output_artifacts = ["TFDevSecArtifact"]
       version          = "1"
 
@@ -87,17 +83,6 @@ resource "aws_codepipeline" "build_dev" {
         ProjectName = module.codebuild["tfsec"].codebuild.id
       }
     }
-
-    action {
-      name             = "approval"
-      category         = "Approval"
-      owner            = "AWS"
-      provider         = "Manual"
-      region           = var.region
-      run_order        = 2
-      version          = "1"
-    }
-
   }
 }
 
