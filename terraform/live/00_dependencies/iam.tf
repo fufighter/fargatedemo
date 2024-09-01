@@ -24,6 +24,20 @@ module "iam_ecs_dev" {
 
 }
 
+module "iam_ecs_qa" {
+  source   = "../../modules/iam_ecs"
+  providers = {
+    aws = aws.qa
+  }
+
+  region                 = "us-east-1"
+  env_name               = "qa"
+  project                = "dog"
+  codepipeline_accountid = data.aws_caller_identity.current.account_id
+  key_arn                = module.kms.key_arn
+  s3_arn                 = aws_s3_bucket.s3_codebuild.arn
+}
+
 module "iam_ecs_prod" {
   source   = "../../modules/iam_ecs"
   providers = {
