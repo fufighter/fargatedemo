@@ -23,8 +23,8 @@ phases:
     commands:
       - echo Build completed on `date`
       - echo Pushing the Docker image...
-      - docker push $REPOSITORY_URI/$IMAGE_REPO_NAME:$CODEBUILD_BUILD_NUMBER
       - docker push $REPOSITORY_URI/$IMAGE_REPO_NAME:latest
+      - docker push $REPOSITORY_URI/$IMAGE_REPO_NAME:$CODEBUILD_BUILD_NUMBER
       - printf "[{\"name\":\"$IMAGE_REPO_NAME\",\"imageUri\":\"%s\"}]" $REPOSITORY_URI/$IMAGE_REPO_NAME:$CODEBUILD_BUILD_NUMBER > imagedefinitions.json
       - printf "{\"image\":\"%s\"}" $REPOSITORY_URI/$IMAGE_REPO_NAME:$CODEBUILD_BUILD_NUMBER > z.auto.tfvars.json
       - cat z.auto.tfvars.json
