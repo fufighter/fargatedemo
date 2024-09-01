@@ -233,8 +233,7 @@ resource "aws_codepipeline" "deploy_release" {
             name = "IMAGE_URI"
             type = "PLAINTEXT"
             value = "#{ECRVariables.ImageURI}"
-          }
-          ]
+          }]
         )
       }
     }
@@ -272,6 +271,11 @@ resource "aws_codepipeline" "deploy_release" {
             name  = "ECS_STATUS_ROLE"
             type  = "PLAINTEXT"
             value = local.ecs_qa
+          },
+          {
+            name  = "IMAGE_REPO_NAME"
+            type  = "PLAINTEXT"
+            value = var.project
           }]
         )
       }
@@ -353,6 +357,11 @@ resource "aws_codepipeline" "deploy_release" {
             name  = "ECS_STATUS_ROLE"
             type  = "PLAINTEXT"
             value = local.ecs_prod
+          },
+          {
+            name  = "IMAGE_REPO_NAME"
+            type  = "PLAINTEXT"
+            value = var.project
           }]
         )
       }

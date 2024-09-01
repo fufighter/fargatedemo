@@ -211,6 +211,11 @@ resource "aws_codepipeline" "deploy_dev" {
             name  = "ECS_STATUS_ROLE"
             type  = "PLAINTEXT"
             value = local.ecs_dev
+          },
+          {
+            name  = "IMAGE_REPO_NAME"
+            type  = "PLAINTEXT"
+            value = var.project
           }]
         )
       }
