@@ -63,7 +63,7 @@ resource "aws_codepipeline" "build_dev" {
           {
             name  = "IMAGE_REPO_NAME"
             type  = "PLAINTEXT"
-            value = "${var.project}_release"
+            value = "${var.project}_dev"
           }]
         )
       }
