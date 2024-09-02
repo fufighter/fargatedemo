@@ -17,7 +17,7 @@ phases:
       - "CODE_SRC_DIR=\"./terraform/live/${ENVIRONMENT}ecs\""
       - "echo $CODE_SRC_DIR"
       - printf "{\"image\":\"%s\"}" $IMAGE_URI > z.auto.tfvars.json
-      - echo z.auto.tfvars.json
+      - bash ./scripts/env_var_check.sh
       - "cp z.auto.tfvars.json ${CODEBUILD_SRC_DIR}/${CODE_SRC_DIR}/"
       - "cd ${CODEBUILD_SRC_DIR}/${CODE_SRC_DIR}"
       - "echo ## TERRAFORM PLAN : Generate the Terraform Plan"
